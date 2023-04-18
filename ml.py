@@ -95,6 +95,7 @@ housing_prepared = full_pipeline.fit_transform(df_train)
 models=[]
 models.append(('lin_reg', LinearRegression()))
 models.append(('tree_reg', DecisionTreeRegressor()))
+models.append(('forest_reg', RandomForestRegressor()))
 
 results=[]
 names=[]
