@@ -92,17 +92,19 @@ full_pipeline = ColumnTransformer([
 
 housing_prepared = full_pipeline.fit_transform(df_train)
 
+models=[]
+models.append(('lin_reg', LinearRegression()))
+models.append(('tree_reg', DecisionTreeRegressor()))
 
-lin_reg = LinearRegression()
-lin_reg.fit(housing_prepared, df_labels)
+results=[]
+names=[]
+i=0
 
-some_data = df_train.iloc[:5]
-some_labels = df_labels.iloc[:5]
-
-some_data_prepared = full_pipeline.transform(some_data)
-
-housing_predictions = lin_reg.predict(housing_prepared)
-lin_mse = mean_squared_error(df_labels, housing_predictions)
-lin_rmse = np.sqrt(lin_mse)
-
-print("Result mean squared error LinearRegression:", lin_rmse)
+for name, model in models:
+    train_model=model.fit(housing_prepared, df_labels)
+    predictions=train_model.predict(housing_prepared)
+    error=mean_squared_error(df_labels,predictions)
+    results.append(np.sqrt(error))
+    names.append(name)
+    print('Result mean squared error %s: %f' % (name, results[i]))
+    i+=1
